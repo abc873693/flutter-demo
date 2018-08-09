@@ -1,17 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter_app_demo/models/contact.dart';
+import 'package:flutter_app_demo/models/generator.dart';
 import 'package:dio/dio.dart';
 
-class ContactsList extends StatefulWidget {
+class GeneratorList extends StatefulWidget {
   final List<GeneratorModel> _contactModal;
 
-  ContactsList(this._contactModal);
+  GeneratorList(this._contactModal);
 
   @override
-  State createState() => _ContactsListState(_contactModal);
+  State createState() => _GeneratorListState(_contactModal);
 }
 
 class GeneratorItem extends StatelessWidget {
@@ -22,17 +20,29 @@ class GeneratorItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Card(
-      child: new ListTile(
-          title: new Text(_contactModal.name),
-          subtitle: new Text(_contactModal.value.toString())),
-    );
+        elevation: 1.5,
+        child: new Padding(
+          padding: new EdgeInsets.all(8.0),
+          child: new Center(
+            child: new Column(children: <Widget>[
+              new Text(_contactModal.name),
+              new Text(
+                _contactModal.value.toString() + " MW",
+                style: new TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22.0,
+                    color: Colors.grey[800]),
+              ),
+            ]),
+          ),
+        ));
   }
 }
 
-class _ContactsListState extends State<ContactsList> {
+class _GeneratorListState extends State<GeneratorList> {
   List<GeneratorModel> contactModal;
 
-  _ContactsListState(this.contactModal);
+  _GeneratorListState(this.contactModal);
 
   @override
   void initState() {
@@ -54,7 +64,9 @@ class _ContactsListState extends State<ContactsList> {
   Widget build(BuildContext context) {
     return new GridView.count(
       primary: true,
-      crossAxisCount: 3,
+      crossAxisCount: 2,
+      childAspectRatio: 2.5,
+      shrinkWrap: true,
       padding: new EdgeInsets.symmetric(vertical: 8.0),
       children: _buildContactsList(),
     );
